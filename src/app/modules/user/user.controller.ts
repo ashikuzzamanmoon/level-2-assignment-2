@@ -16,11 +16,10 @@ const createUser = async (req: Request, res: Response)=> {
             message: 'User is created successfully',
             data: result
         })
-    }catch(err){
-        console.log(err);
+    }catch(err: any){
         res.status(500).json({
             success: false,
-            message: 'User not found',
+            message: err.message || 'User not found',
             error: err
         })
     }
@@ -35,8 +34,12 @@ const getAllUsers = async (req: Request, res: Response)=> {
             message: 'Users are retrieve successfully',
             data: result
         })
-    }catch(err){
-        console.log(err);
+    }catch(err: any){
+        res.status(500).json({
+            success: false,
+            message: err.message || 'User not found',
+            error: err
+        })
     }
 }
 
@@ -51,13 +54,37 @@ const getSingleUser = async (req: Request, res: Response)=> {
             message: 'User is retrieve successfully',
             data: result
         })
-    }catch(err){
-        console.log(err);
+    }catch(err: any){
+        res.status(500).json({
+            success: false,
+            message: err.message || 'User not found',
+            error: err
+        })
+    }
+}
+
+const deleteUser = async (req: Request, res: Response)=> {
+    try{
+        const {userId} = req.params;
+        const userIdNo = +userId
+        const result = await UserServices.deleteUserFromDB(userIdNo);
+        res.status(200).json({
+            success: true,
+            message: 'User is deleted successfully',
+            data: result
+        })
+    }catch(err: any){
+        res.status(500).json({
+            success: false,
+            message: err.message || 'User not found',
+            error: err
+        })
     }
 }
 
 export const UserControllers = {
     createUser,
     getAllUsers,
-    getSingleUser
+    getSingleUser,
+    deleteUser
 }

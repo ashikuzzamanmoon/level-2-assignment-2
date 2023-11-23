@@ -1,3 +1,5 @@
+
+
 export type FullName = {
   firstName: string;
   lastName: string;
@@ -26,4 +28,15 @@ export type User = {
   hobbies: string[];
   address: Address;
   orders: Order[];
+//   isDeleted: boolean;
 };
+
+// export interface UserModel extends Model<User>{
+//     isUserExists(userId: string): Promise<User | null>
+// }
+
+// export type UserMethods = {
+//     isUserExists(userId: string): Promise<User | null>
+// }
+
+// export type UserModel = Model<User, Record<string, never>, UserMethods>

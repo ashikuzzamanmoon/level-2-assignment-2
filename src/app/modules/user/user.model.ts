@@ -111,20 +111,54 @@ const UserSchema = new Schema<User>({
     type: [OrderSchema],
     required: [true, 'Orders are required'],
   },
+//   isDeleted: {
+//     type: Boolean,
+//     default: false,
+//   },
 });
 
 // middleware
-UserSchema.pre('save', async function(next){
-    // eslint-disable-next-line @typescript-eslint/no-this-alias
-    const user = this;
-    user.password = await bcrypt.hash(user.password, Number(config.bcrypt_salt_rounds));
-    next()
+UserSchema.pre('save', async function (next) {
+  // eslint-disable-next-line @typescript-eslint/no-this-alias
+  const user = this;
+  user.password = await bcrypt.hash(
+    user.password,
+    Number(config.bcrypt_salt_rounds),
+  );
+  next();
 });
 
-UserSchema.post('save', function(doc, next){
-    doc.password = '';
-    next();
-})
+UserSchema.post('save', function (doc, next) {
+  doc.password = '';
+  next();
+});
+
+UserSchema.pre('find', function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
+UserSchema.pre('findOne', function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
+UserSchema.pre('aggregate', function (next) {
+  this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
+  next();
+});
+
+
+// creating a custom static method
+// UserSchema.statics.isUserExists = async function(userId: string){
+//     const existingUser = await UserModel.findOne({userId});
+//     return existingUser;
+// }
+
+// UserSchema.methods.isUserExists = async function (userId:string) {
+//     const existingUser = await UserModel.findOne({userId});
+//     return existingUser;
+// }
 
 const UserModel = model<User>('User', UserSchema);
 
