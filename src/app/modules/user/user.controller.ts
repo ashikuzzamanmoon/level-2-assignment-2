@@ -1,10 +1,15 @@
 import { Request, Response } from "express";
 import { UserServices } from "./user.service";
+import UserValidationSchema from "./user.validation";
 
 const createUser = async (req: Request, res: Response)=> {
     try{
+
         const {user: userData} = req.body;
-        const result = await UserServices.createUserIntoDB(userData);
+
+        const zodParsedData = UserValidationSchema.parse(userData);
+
+        const result = await UserServices.createUserIntoDB(zodParsedData);
     
         res.status(200).json({
             success: true,
@@ -13,6 +18,11 @@ const createUser = async (req: Request, res: Response)=> {
         })
     }catch(err){
         console.log(err);
+        res.status(500).json({
+            success: false,
+            message: 'User not found',
+            error: err
+        })
     }
 }
 
@@ -34,7 +44,8 @@ const getAllUsers = async (req: Request, res: Response)=> {
 const getSingleUser = async (req: Request, res: Response)=> {
     try{
         const {userId} = req.params;
-        const result = await UserServices.getSingleUserFromDB(userId);
+        const userIdNo = +userId
+        const result = await UserServices.getSingleUserFromDB(userIdNo);
         res.status(200).json({
             success: true,
             message: 'User is retrieve successfully',
