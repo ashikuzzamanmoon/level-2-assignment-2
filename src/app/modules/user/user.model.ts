@@ -1,12 +1,10 @@
 import { Schema, model } from 'mongoose';
 import { Address, FullName, Order, User } from './user.interface';
 
-
 const FullNameSchema = new Schema<FullName>({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
 });
-
 
 const AddressSchema = new Schema<Address>({
   street: { type: String, required: true },
@@ -34,8 +32,7 @@ const UserSchema = new Schema<User>({
   orders: { type: [OrderSchema], required: true },
 });
 
-// Create a model for the user data type
+
 const UserModel = model<User>('User', UserSchema);
 
-// Export the model and the schema
 export { UserSchema, UserModel };
