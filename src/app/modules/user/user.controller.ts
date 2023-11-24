@@ -27,7 +27,6 @@ const createUser = async (req: Request, res: Response) => {
     }
   };
 
-  
 
 const getAllUsers = async (req: Request, res: Response) => {
   try {

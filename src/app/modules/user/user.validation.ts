@@ -22,14 +22,14 @@ const AddressValidationSchema = z.object({
 
 const OrderValidationSchema = z.object({
   productName: z.string().min(1),
-  price: z.number(),
+  price: z.number().positive(),
   quantity: z.number(),
 });
 
 const UserValidationSchema = z.object({
   userId: z.number(),
   username: z.string().min(1),
-  password: z.string().min(1),
+  password: z.string().min(4),
   fullName: FullNameValidationSchema,
   age: z.number(),
   email: z.string().email(),

@@ -1,14 +1,11 @@
 import { TOrder, TUser } from './user.interface';
 import { User } from './user.model';
 
-
 const createUserIntoDB = async (user: TUser) => {
   if (await User.isUserExists(user.userId)) {
     throw new Error('User already exists');
   }
-
   const result = await User.create(user);
-
   return result;
 };
 
@@ -34,8 +31,6 @@ const updateUserIntoDB = async (id: number, updatedData: TUser) => {
   });
   return result;
 };
-
-  
 
 const deleteUserFromDB = async (userId: number): Promise<boolean> => {
   const user = await User.findOne({ userId });
@@ -69,7 +64,6 @@ const getUserOrders = async (userId: number): Promise<TOrder[] | null> => {
   if (!user) {
     return null; // User not found
   }
-
   return user.orders;
 };
 
@@ -96,5 +90,5 @@ export const UserServices = {
   updateUserIntoDB,
   addOrderToUser,
   getUserOrders,
-  calculateUserOrderTotal
+  calculateUserOrderTotal,
 };
