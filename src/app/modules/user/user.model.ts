@@ -1,9 +1,9 @@
 import { Schema, model } from 'mongoose';
-import { Address, FullName, Order, User } from './user.interface';
+import { TAddress, TFullName, TOrder, TUser, UserModel } from './user.interface';
 import bcrypt from 'bcrypt';
 import config from '../../config';
 
-const FullNameSchema = new Schema<FullName>({
+export const FullNameSchema = new Schema<TFullName>({
   firstName: {
     type: String,
     required: [true, 'First name is required'],
@@ -25,7 +25,7 @@ const FullNameSchema = new Schema<FullName>({
   },
 });
 
-const AddressSchema = new Schema<Address>({
+export const AddressSchema = new Schema<TAddress>({
   street: {
     type: String,
     required: [true, 'Street is required'],
@@ -43,7 +43,7 @@ const AddressSchema = new Schema<Address>({
   },
 });
 
-const OrderSchema = new Schema<Order>({
+export const OrderSchema = new Schema<TOrder>({
   productName: {
     type: String,
     required: [true, 'Product name is required'],
@@ -61,7 +61,7 @@ const OrderSchema = new Schema<Order>({
   },
 });
 
-const UserSchema = new Schema<User>({
+export const UserSchema = new Schema<TUser, UserModel>({
   userId: {
     type: Number,
     required: [true, 'User ID is required'],
@@ -111,10 +111,7 @@ const UserSchema = new Schema<User>({
     type: [OrderSchema],
     required: [true, 'Orders are required'],
   },
-//   isDeleted: {
-//     type: Boolean,
-//     default: false,
-//   },
+
 });
 
 // middleware
@@ -148,18 +145,13 @@ UserSchema.pre('aggregate', function (next) {
   next();
 });
 
-
 // creating a custom static method
-// UserSchema.statics.isUserExists = async function(userId: string){
-//     const existingUser = await UserModel.findOne({userId});
-//     return existingUser;
-// }
+UserSchema.statics.isUserExists = async function(userId: number){
+    const existingUser = await User.findOne({userId});
+    return existingUser;
+}
 
-// UserSchema.methods.isUserExists = async function (userId:string) {
-//     const existingUser = await UserModel.findOne({userId});
-//     return existingUser;
-// }
+export const User = model<TUser, UserModel>('User', UserSchema);
 
-const UserModel = model<User>('User', UserSchema);
+// export { UserModel };
 
-export { UserSchema, UserModel };

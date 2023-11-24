@@ -16,6 +16,7 @@ const createUser = async (req: Request, res: Response)=> {
             message: 'User is created successfully',
             data: result
         })
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     }catch(err: any){
         res.status(500).json({
             success: false,
@@ -34,6 +35,7 @@ const getAllUsers = async (req: Request, res: Response)=> {
             message: 'Users are retrieve successfully',
             data: result
         })
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     }catch(err: any){
         res.status(500).json({
             success: false,
@@ -54,6 +56,7 @@ const getSingleUser = async (req: Request, res: Response)=> {
             message: 'User is retrieve successfully',
             data: result
         })
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     }catch(err: any){
         res.status(500).json({
             success: false,
@@ -73,6 +76,7 @@ const deleteUser = async (req: Request, res: Response)=> {
             message: 'User is deleted successfully',
             data: result
         })
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     }catch(err: any){
         res.status(500).json({
             success: false,
