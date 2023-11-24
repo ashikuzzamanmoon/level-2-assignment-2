@@ -1,6 +1,7 @@
 import { TOrder, TUser } from './user.interface';
 import { User } from './user.model';
 
+
 const createUserIntoDB = async (user: TUser) => {
   if (await User.isUserExists(user.userId)) {
     throw new Error('User already exists');
@@ -33,6 +34,8 @@ const updateUserIntoDB = async (id: number, updatedData: TUser) => {
   });
   return result;
 };
+
+  
 
 const deleteUserFromDB = async (userId: number): Promise<boolean> => {
   const user = await User.findOne({ userId });

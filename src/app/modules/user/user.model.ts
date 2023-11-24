@@ -153,5 +153,4 @@ UserSchema.statics.isUserExists = async function(userId: number){
 
 export const User = model<TUser, UserModel>('User', UserSchema);
 
-// export { UserModel };
 
